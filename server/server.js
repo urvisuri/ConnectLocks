@@ -1,19 +1,22 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const requestIp = require('request-ip');
 require('dotenv').config();
+const path = require('path');
 
+// Initialize app
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(requestIp.mw());  // Middleware to get client IP
+app.use(requestIp.mw()); // IP extraction
 
-// Connect to MongoDB
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,7 +24,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('✅ MongoDB connected'))
 .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Inquiry Schema & Model
+// Inquiry schema
 const InquirySchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -35,7 +38,7 @@ const InquirySchema = new mongoose.Schema({
 
 const Inquiry = mongoose.model('Inquiry', InquirySchema);
 
-// Helper function to parse location string
+// Helper: Parse x-user-location header
 function parseLocationHeader(headerValue) {
   try {
     const [state, city] = headerValue.split('|');
@@ -48,7 +51,7 @@ function parseLocationHeader(headerValue) {
   }
 }
 
-// POST Route: Submit Inquiry
+// POST: Submit Inquiry
 app.post('/api/inquiry', async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
@@ -75,7 +78,7 @@ app.post('/api/inquiry', async (req, res) => {
   }
 });
 
-// GET Route: Admin fetch all inquiries
+// GET: Admin fetch all inquiries
 app.get('/api/inquiries', async (req, res) => {
   try {
     const inquiries = await Inquiry.find().sort({ createdAt: -1 });
@@ -85,14 +88,15 @@ app.get('/api/inquiries', async (req, res) => {
     res.status(500).json({ error: 'Server error while fetching inquiries' });
   }
 });
-const path = require('path');
 
-// Serve React build
+// Serve frontend (React)
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
-// Start Server
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});

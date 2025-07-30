@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './InquiryModal.css';
 
+
 const InquiryModal = ({ onClose }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const InquiryModal = ({ onClose }) => {
       const state = localStorage.getItem('state') || '';
       const city = localStorage.getItem('city') || '';
 
-      const res = await fetch('http://localhost:5000/api/inquiry', {
+      const res = await fetch('https://your-backend-url.onrender.com/api/inquiry', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
