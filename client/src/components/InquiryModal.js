@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './InquiryModal.css';
 
-
 const InquiryModal = ({ onClose }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,25 +16,25 @@ const InquiryModal = ({ onClose }) => {
     try {
       const state = localStorage.getItem('state') || '';
       const city = localStorage.getItem('city') || '';
-    const res = await fetch('https://connectlocks.onrender.com/api/inquiry', {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json',
-      'x-user-location': `${state}|${city}`
-  },
-  body: JSON.stringify({ name, email, phone, message })
-});
 
+      const res = await fetch('https://connectlocks.onrender.com/api/inquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user-location': `${state}|${city}`
+        },
+        body: JSON.stringify({ name, email, phone, message })
+      });
 
       if (res.ok) {
-        alert('Inquiry submitted successfully!');
+        alert('✅ Inquiry submitted successfully!');
         onClose();
       } else {
-        alert('Failed to submit inquiry');
+        alert('❌ Failed to submit inquiry');
       }
     } catch (err) {
       console.error(err);
-      alert('Error submitting inquiry');
+      alert('❌ Error submitting inquiry');
     }
   };
 

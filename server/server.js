@@ -4,7 +4,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const requestIp = require('request-ip');
 const dotenv = require('dotenv');
-const fetch = require('node-fetch'); // Ensure version 2.x is used
 
 dotenv.config();
 const app = express();
@@ -18,10 +17,11 @@ app.use(requestIp.mw());
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB error:', err));
+})
+.then(() => console.log('✅ MongoDB connected'))
+.catch((err) => console.error('❌ MongoDB error:', err));
 
-// Inquiry Schema
+// Schema
 const inquirySchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -35,7 +35,7 @@ const inquirySchema = new mongoose.Schema({
 
 const Inquiry = mongoose.model('Inquiry', inquirySchema);
 
-// API route
+// Inquiry Route
 app.post('/api/inquiry', async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
@@ -54,18 +54,18 @@ app.post('/api/inquiry', async (req, res) => {
     });
 
     await newInquiry.save();
-    res.status(200).json({ message: 'Inquiry saved' });
+    res.status(200).json({ message: '✅ Inquiry saved' });
   } catch (error) {
-    console.error('Error saving inquiry:', error);
-    res.status(500).json({ message: 'Error saving inquiry' });
+    console.error('❌ Error saving inquiry:', error);
+    res.status(500).json({ message: 'Server error saving inquiry' });
   }
 });
 
-// Default route
+// Root Route
 app.get('/', (req, res) => {
-  res.send('Connect Locks backend is live.');
+  res.send('🔧 ConnectLocks backend is live');
 });
 
-// Start server
+// Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
