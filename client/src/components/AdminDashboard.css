@@ -1,0 +1,44 @@
+.admin-login {
+  padding: 3rem;
+  text-align: center;
+  background: #111;
+  color: #fff;
+}
+
+.admin-login input {
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px;
+  width: 250px;
+}
+
+.admin-login button {
+  padding: 10px 20px;
+  background-color: #ff3333;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-dashboard {
+  padding: 2rem;
+  background: #000;
+  color: #fff;
+}
+
+.admin-dashboard table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+.admin-dashboard th,
+.admin-dashboard td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: left;
+}
+
+.admin-dashboard th {
+  background: #222;
+}

@@ -1,0 +1,37 @@
+.product-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #111; /* Dark Gen-Z vibe */
+  color: white;
+}
+
+.product-detail-img {
+  width: 350px;
+  max-width: 90%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.product-detail-img:hover {
+  transform: scale(1.03);
+}
+
+.product-detail-name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.product-detail-desc {
+  font-size: 1.1rem;
+  max-width: 600px;
+  text-align: center;
+  color: #ccc;
+}
