@@ -1,23 +1,27 @@
-// Required Modules
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const requestIp = require('request-ip');
-const fetch = require('node-fetch'); // for IP info
-require('dotenv').config();
+const dotenv = require('dotenv');
+const fetch = require('node-fetch'); // Ensure version 2.x is used
 
+dotenv.config();
 const app = express();
+
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(requestIp.mw());
 
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+}).then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB error:', err));
 
-// Define Schema
+// Inquiry Schema
 const inquirySchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -31,7 +35,7 @@ const inquirySchema = new mongoose.Schema({
 
 const Inquiry = mongoose.model('Inquiry', inquirySchema);
 
-// 🛠️ ACTUAL INQUIRY ROUTE
+// API route
 app.post('/api/inquiry', async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
@@ -57,8 +61,11 @@ app.post('/api/inquiry', async (req, res) => {
   }
 });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Default route
+app.get('/', (req, res) => {
+  res.send('Connect Locks backend is live.');
 });
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
