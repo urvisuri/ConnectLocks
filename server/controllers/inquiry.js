@@ -1,5 +1,5 @@
 // server/controllers/inquiry.js
-const Inquiry = require('../models/Inquiry');
+const Inquiry = require('./models/Inquiry');
 
 const createInquiry = async (req, res) => {
   try {
