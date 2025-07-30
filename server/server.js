@@ -1,64 +1,43 @@
-// server.js
+// Required Modules
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const requestIp = require('request-ip');
+const fetch = require('node-fetch'); // for IP info
 require('dotenv').config();
-const path = require('path');
 
-// Initialize app
 const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(requestIp.mw()); // IP extraction
+app.use(requestIp.mw());
 
-// MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
-.then(() => console.log('✅ MongoDB connected'))
-.catch((err) => console.error('❌ MongoDB connection error:', err));
+});
 
-// Inquiry schema
-const InquirySchema = new mongoose.Schema({
+// Define Schema
+const inquirySchema = new mongoose.Schema({
   name: String,
   email: String,
   phone: String,
   message: String,
+  timestamp: { type: Date, default: Date.now },
   ip: String,
   state: String,
   city: String,
-  createdAt: { type: Date, default: Date.now }
 });
 
-const Inquiry = mongoose.model('Inquiry', InquirySchema);
+const Inquiry = mongoose.model('Inquiry', inquirySchema);
 
-// Helper: Parse x-user-location header
-function parseLocationHeader(headerValue) {
-  try {
-    const [state, city] = headerValue.split('|');
-    return {
-      state: state?.trim() || '',
-      city: city?.trim() || ''
-    };
-  } catch {
-    return { state: '', city: '' };
-  }
-}
-
-// POST: Submit Inquiry
+// 🛠️ ACTUAL INQUIRY ROUTE
 app.post('/api/inquiry', async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
-    const ip = req.clientIp;
-
+    const ip = req.clientIp || req.ip || '';
     const locationHeader = req.headers['x-user-location'] || '';
-    const { state, city } = parseLocationHeader(locationHeader);
+    const [state, city] = locationHeader.split('|');
 
     const newInquiry = new Inquiry({
       name,
@@ -66,37 +45,20 @@ app.post('/api/inquiry', async (req, res) => {
       phone,
       message,
       ip,
-      state,
-      city
+      state: state || '',
+      city: city || '',
     });
 
     await newInquiry.save();
-    res.status(200).json({ message: '✅ Inquiry saved successfully' });
-  } catch (err) {
-    console.error('❌ Failed to save inquiry:', err);
-    res.status(500).json({ error: 'Server error while saving inquiry' });
+    res.status(200).json({ message: 'Inquiry saved' });
+  } catch (error) {
+    console.error('Error saving inquiry:', error);
+    res.status(500).json({ message: 'Error saving inquiry' });
   }
 });
 
-// GET: Admin fetch all inquiries
-app.get('/api/inquiries', async (req, res) => {
-  try {
-    const inquiries = await Inquiry.find().sort({ createdAt: -1 });
-    res.json(inquiries);
-  } catch (err) {
-    console.error('❌ Error fetching inquiries:', err);
-    res.status(500).json({ error: 'Server error while fetching inquiries' });
-  }
-});
-
-// Serve frontend (React)
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
-
-// Start server
+// Start Server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

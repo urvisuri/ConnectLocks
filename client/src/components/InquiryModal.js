@@ -17,15 +17,15 @@ const InquiryModal = ({ onClose }) => {
     try {
       const state = localStorage.getItem('state') || '';
       const city = localStorage.getItem('city') || '';
+    const res = await fetch('https://connectlocks.onrender.com/api/inquiry', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      'x-user-location': `${state}|${city}`
+  },
+  body: JSON.stringify({ name, email, phone, message })
+});
 
-      const res = await fetch('https://your-backend-url.onrender.com/api/inquiry', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-user-location': `${state}|${city}` // ✅ Send state|city to backend
-        },
-        body: JSON.stringify({ name, email, phone, message })
-      });
 
       if (res.ok) {
         alert('Inquiry submitted successfully!');
