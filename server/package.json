@@ -4,13 +4,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-     "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^7.2.2"
+    "mongoose": "^7.2.2",
+    "request-ip": "^3.3.0"
   }
 }
-
