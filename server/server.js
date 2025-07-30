@@ -14,15 +14,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(requestIp.mw());  // ✅ IP middleware
 
-const path = require('path');
-
-// Serve React frontend
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
