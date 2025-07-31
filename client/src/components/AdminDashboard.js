@@ -7,9 +7,11 @@ const AdminDashboard = () => {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
 
+
+
   useEffect(() => {
     if (authenticated) {
-      fetch('http://localhost:5000/api/inquiries')
+      fetch("https://connectlocks.in/api/inquiries")
         .then((res) => res.json())
         .then((resData) => setData(resData))
         .catch((err) => console.error('Fetch error:', err));

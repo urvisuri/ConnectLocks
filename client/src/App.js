@@ -4,6 +4,7 @@ import ProductsPage from './components/ProductsPage';
 import CategoryPage from './components/CategoryPage'; 
 import AdminDashboard from './components/AdminDashboard';
 
+
  // ✅ important
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/category/:name" element={<CategoryPage />} /> 
         <Route path="/admin" element={<AdminDashboard />} />
+
 
       </Routes>
     </Router>
