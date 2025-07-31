@@ -55,6 +55,12 @@ app.get('/', (req, res) => {
   res.send('🔧 ConnectLocks backend is live');
 });
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 app.post('/api/inquiry', async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
