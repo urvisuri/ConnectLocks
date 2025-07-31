@@ -17,7 +17,7 @@ const InquiryModal = ({ onClose }) => {
       const state = localStorage.getItem('state') || '';
       const city = localStorage.getItem('city') || '';
 
-      const res = await fetch('https://connectlocks.onrender.com/api/inquiry', {
+      const res = await fetch("https://connectlocks.onrender.com/api/inquiry", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
