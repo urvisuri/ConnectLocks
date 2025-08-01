@@ -11,6 +11,7 @@ const Sidebar = ({ onInquiryClick }) => {
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleCategories = () => setShowCategories(!showCategories);
   const toggleContactEmail = () => setShowContactEmail(!showContactEmail);
+  
 
   return (
     <div>
@@ -22,13 +23,13 @@ const Sidebar = ({ onInquiryClick }) => {
             Products
             {showCategories && (
               <ul className="categories">
-                <li><Link to="/category/Smart-lock">Smart lock</Link></li>
-                <li><Link to="/category/Mortise-lock">Mortise lock</Link></li>
-                <li><Link to="/category/Door-handle">Door handle</Link></li>
+                <li><Link to="/category/smart-lock">Smart lock</Link></li>
+                <li><Link to="/category/mortise-lock">Mortise lock</Link></li>
+                <li><Link to="/category/door-handle">Door handle</Link></li>
                 <li><Link to="/category/Knob">Knob</Link></li>
-                <li><Link to="/category/Telescopic-channel">Telescopic channel</Link></li>
-                <li><Link to="/category/Auto-hinges">Auto hinges</Link></li>
-                <li><Link to="/category/Cabinet-handle">Cabinet handle</Link></li>
+                <li><Link to="/category/telescopic-channel">Telescopic channel</Link></li>
+                <li><Link to="/category/auto-hinges">Auto hinges</Link></li>
+                <li><Link to="/category/cabinet-handle">Cabinet handle</Link></li>
               </ul>
             )}
           </li>

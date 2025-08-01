@@ -1,46 +1,72 @@
-// src/components/CategoryPage.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './CategoryPage.css';
+import './CategoryPage.css'; // Ensure this exists and is styled properly
+
+
+
 
 const CategoryPage = () => {
-  const { name } = useParams(); // 'Smart-lock', 'Auto-hinges', etc.
-  const [modalSrc, setModalSrc] = useState(null);
+  const { categoryName } = useParams();
+  const decodedCategory = decodeURIComponent(categoryName); // Handles encoded names
 
-  const imageCount = 10;
-  const formats = ['jpg', 'png'];
-  const images = [];
+  // 🔁 Map display category to actual folder name
+  const categoryToFolderMap = {
+    'Smart lock': 'smart-lock',
+    'Auto hinges': 'auto-hinges',
+    'Knob': 'Knob',
+    'Mortise lock': 'mortise-lock',
+    'Door handle': 'door-handle',
+    'Telescopic channel': 'telescopic-channel',
+    'Cabinet handle': 'cabinet-handle',
+    'Ms': 'Ms',
+    'Ss': 'Ss',
+  };
 
-  for (let i = 1; i <= imageCount; i++) {
-    formats.forEach((ext) => {
-      images.push(`${process.env.PUBLIC_URL}/assets/${name}/img${i}.${ext}`);
-    });
-  }
+  const folderCategory = categoryToFolderMap[decodedCategory] || decodedCategory;
 
-  const openModal = (src) => setModalSrc(src);
-  const closeModal = () => setModalSrc(null);
+  const [imageFilenames, setImageFilenames] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    const importImages = async () => {
+      try {
+        // ✅ Dynamically import images using the resolved folder name
+        const imagesContext = require.context(
+          `../assets/${folderCategory}`,
+          false,
+          /\.(png|jpe?g)$/i
+        );
+
+        const files = imagesContext.keys().map((key) => key.replace('./', ''));
+        setImageFilenames(files);
+      } catch (err) {
+        console.error('Error loading images:', err);
+        setImageFilenames([]);
+      }
+    };
+
+    importImages();
+  }, [folderCategory]);
 
   return (
     <div className="category-page">
-      <h2>{name.replace(/-/g, ' ')}</h2>
+      <h2 className="category-title">{decodedCategory}</h2>
 
       <div className="image-grid">
-        {images.map((src, idx) => (
+        {imageFilenames.map((file, index) => (
           <img
-            key={idx}
-            src={src}
-            alt=""
-            onClick={() => openModal(src)}
-            onError={(e) => (e.target.style.display = 'none')}
-            className="grid-image"
+            key={index}
+            src={`/assets/${folderCategory}/${file}`}
+            alt={`img-${index}`}
+            className="category-img"
+            onClick={() => setSelectedImage(`/assets/${folderCategory}/${file}`)}
           />
         ))}
       </div>
 
-      {modalSrc && (
-        <div className="modal" onClick={closeModal}>
-          <span className="close">&times;</span>
-          <img src={modalSrc} alt="Fullscreen" className="modal-content" />
+      {selectedImage && (
+        <div className="image-modal" onClick={() => setSelectedImage(null)}>
+          <img src={selectedImage} alt="Fullscreen" className="modal-img" />
         </div>
       )}
     </div>
