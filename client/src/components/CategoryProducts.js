@@ -7,7 +7,7 @@ const CategoryProducts = ({ selectedCategory }) => {
 
   useEffect(() => {
     if (selectedCategory) {
-      axios.get('http://localhost:5000/api/products')
+      axios.get('/api/products')
         .then(res => {
           const filtered = res.data.filter(prod =>
             prod.category.toLowerCase() === selectedCategory.toLowerCase()
