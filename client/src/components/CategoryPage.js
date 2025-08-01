@@ -13,7 +13,7 @@ const CategoryPage = () => {
 
   for (let i = 1; i <= imageCount; i++) {
     formats.forEach((ext) => {
-      images.push(`/assets/${name}/img${i}.${ext}`);
+      images.push(`${process.env.PUBLIC_URL}/assets/${name}/img${i}.${ext}`);
     });
   }
 
