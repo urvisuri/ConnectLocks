@@ -13,12 +13,15 @@ const CategoryPage = () => {
 
   for (let i = 1; i <= imageCount; i++) {
     formats.forEach((ext) => {
+  
       images.push(`${process.env.PUBLIC_URL}/assets/${name}/img${i}.${ext}`);
     });
   }
 
   const openModal = (src) => setModalSrc(src);
   const closeModal = () => setModalSrc(null);
+  const { category } = useParams();
+
 
   return (
     <div className="category-page">
