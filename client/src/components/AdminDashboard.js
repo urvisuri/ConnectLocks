@@ -8,7 +8,6 @@ const AdminDashboard = () => {
   const [authenticated, setAuthenticated] = useState(false);
 
 
-
   useEffect(() => {
     if (authenticated) {
       fetch("https://connectlocks.in/api/inquiries")

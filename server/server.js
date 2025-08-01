@@ -21,6 +21,7 @@ app.use(requestIp.mw());
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI;
 
+
 if (!MONGO_URI || (!MONGO_URI.startsWith("mongodb://") && !MONGO_URI.startsWith("mongodb+srv://"))) {
   console.error("❌ Invalid MONGO_URI. Must start with 'mongodb://' or 'mongodb+srv://'");
   process.exit(1);
