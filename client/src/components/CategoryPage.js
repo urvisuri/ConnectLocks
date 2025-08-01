@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import './CategoryPage.css';
 
 const CategoryPage = () => {
-  const { name } = useParams();
+  const { name } = useParams(); // 'Smart-lock', 'Auto-hinges', etc.
   const [modalSrc, setModalSrc] = useState(null);
 
   const imageCount = 10;
@@ -13,19 +13,17 @@ const CategoryPage = () => {
 
   for (let i = 1; i <= imageCount; i++) {
     formats.forEach((ext) => {
-  
       images.push(`${process.env.PUBLIC_URL}/assets/${name}/img${i}.${ext}`);
     });
   }
 
   const openModal = (src) => setModalSrc(src);
   const closeModal = () => setModalSrc(null);
-  const { category } = useParams();
-
 
   return (
     <div className="category-page">
       <h2>{name.replace(/-/g, ' ')}</h2>
+
       <div className="image-grid">
         {images.map((src, idx) => (
           <img
