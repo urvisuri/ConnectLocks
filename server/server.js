@@ -7,11 +7,18 @@ const bodyParser = require('body-parser');
 const requestIp = require('request-ip');
 const dotenv = require('dotenv');
 const path = require('path');
+// server.js
+const imageRoutes = require('./routes/imageRoutes');
+
+const app = express();
+app.use('/api/images', imageRoutes);
+app.use('/assets', express.static(path.join(__dirname, 'client/public/assets')));
+
 
 // Load environment variables from .env
 dotenv.config();
 
-const app = express();
+
 
 // Middleware
 app.use(cors());
