@@ -58,3 +58,9 @@
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
+.category-page h2 {
+  color: white; /* or any color you want */
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize; /* optional: makes "smart lock" look nice */
+}

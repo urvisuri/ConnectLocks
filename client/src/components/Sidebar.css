@@ -57,10 +57,6 @@
   padding: 5px 0;
 }
 
-.categories li:hover {
-  color: #fff;
-}
-
 .contact-popup {
   margin-top: 10px;
   padding: 10px;
@@ -73,13 +69,15 @@
 
 
 
-.category-link {
-  color: #fff; /* or any color you prefer */
+.categories li a {
+  color: #ccc; /* or your desired color */
   text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: bold;
 }
 
-.category-link:hover {
-  color: #ccc; /* optional hover effect */
+.categories li a:visited {
+  color: #c84ecca3; /* same as unvisited */
+}
+
+.categories li a:hover {
+  color: #fff;
 }
